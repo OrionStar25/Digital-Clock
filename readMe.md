@@ -9,10 +9,10 @@ Features of the clock :-
 
 1) Time can be displayed in either the user’s time zone or any other time zone configured in the parameters.
 2) Configurable parameters include: 
- 	*Color of clock text.
-	*Color of frame surrounding the clock.
-	*Background color of clock display.
-	*Font style of date display.
+ 	* Color of clock text.
+	* Color of frame surrounding the clock.
+	* Background color of clock display.
+	* Font style of date display.
 3) User also has the option to choose either a 24-hour clock or a 12 hour one.
 
 Features to add :-
