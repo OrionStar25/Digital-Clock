@@ -18,8 +18,7 @@ Features of the clock :-
 Features to add :-
 
 1) Program which works with the clock and gives a wake-up alarm to you on every morning by downloading a particular song (different one for each week day) and playing this song for daily wake-up. The song gets played and replayed until you wake up and closes the wake-up call.
-2) Change the code into classes and implement accordingly.
-3) Make UML class diagram, use case diagram, activity diagram and CRC diagram for the same.
-4) Add a demo video of its working.
+2) Make UML class diagram, use case diagram, activity diagram and CRC diagram for the same.
+3) Add a demo video of its working.
 
 

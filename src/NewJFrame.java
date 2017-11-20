@@ -1,25 +1,17 @@
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 import javax.swing.BorderFactory;
-import javax.swing.JColorChooser;
-import javax.swing.JList;
-import java.util.*;
-
-
 
 public class NewJFrame extends javax.swing.JFrame {
     
-    int hour,minute,second,AM_PM,year,month,day;
-    String time;
-    Date date;
-    Color background,text,frame;
+    private Timezone tz;
+    private Time t;    
+    private Date date;
+    private Configure config;
+    private Color background,text,frame;
+    private JFontChooser f;
 
     public NewJFrame() {
         initComponents();
@@ -30,64 +22,15 @@ public class NewJFrame extends javax.swing.JFrame {
             {
                 while(true)
                 {
-                    Calendar cal = new GregorianCalendar(TimeZone.getTimeZone((String)time_zone.getSelectedItem()));
-                    hour = cal.get(Calendar.HOUR);
-                    minute = cal.get(Calendar.MINUTE);
-                    second = cal.get(Calendar.SECOND);
-                    AM_PM = cal.get(Calendar.AM_PM);
-                    date = new Date();
+                    tz = new Timezone(time_zone); //get the selected time zone
+                    Calendar cal = new GregorianCalendar(tz.getTimeZone()); //get details of that time zone
                     
-                    if(jRadioButton24.isSelected() && AM_PM == 1 && hour!=12) //24 hour clock display is selected
-                    {
-                        hour += 12;               
-                    }
-                    if(jRadioButton24.isSelected() && AM_PM == 0 && hour == 12) 
-                    {
-                        hour = 0;
-                    }
-                    if(hour < 10)
-                    {
-                        time = "0" + hour + ":";
-                    }
-                    else
-                    {
-                        time = hour + ":";
-                    }
+                    t = new Time(cal); //get current time
+                    clock.setText(t.setTime(jRadioButton24,jRadioButton12)); //set time
+                    date = new Date(); //get date
+                    date_field.setText(" " + date);//set date
                     
-                    if(minute < 10)
-                    {
-                        time = time + "0" + minute + ":";
-                    }
-                    else
-                    {
-                        time = time + minute + ":";
-                    }
-                    
-                    if(second < 10)
-                    {
-                        time = time + "0" + second + " ";
-                    }
-                    else
-                    {
-                        time = time + second + " ";
-                    }
-                    
-                    if(jRadioButton12.isSelected()) //12 hour clock display is selected
-                    {
-                        hour = cal.get(Calendar.HOUR);
-                        if(time_zone.getSelectedItem().equals("Japan"))
-                            System.out.println(hour);
-                        switch(AM_PM)
-                        {
-                            case 0: time = time + "AM";
-                                    break;
-                            case 1: time = time + "PM";
-                                    break;
-                        }
-                    }
-                    
-                    clock.setText(time);
-                    date_field.setText(" " + date);
+                    config = new Configure();
                 }
             }            
         }.start();
@@ -282,21 +225,26 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bg_colourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bg_colourActionPerformed
-        background = JColorChooser.showDialog(this,"Select a color",background);
+        background = config.get_background(bg_colour);
         jPanel1.setBackground(background);
     }//GEN-LAST:event_bg_colourActionPerformed
 
     private void font_styleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_font_styleActionPerformed
-       //todo       
+       f = new JFontChooser(this,clock.getFont());
+    	f.setVisible(true);
+    	if(f.getReturnStatus() == JFontChooser.RET_OK){
+    	       clock.setFont(f.getFont());
+    	}    	
+    	f.dispose();
     }//GEN-LAST:event_font_styleActionPerformed
 
     private void text_colourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_colourActionPerformed
-        text = JColorChooser.showDialog(this,"Select a color",text);
+        text = config.get_text(text_colour);
         clock.setForeground(text);
     }//GEN-LAST:event_text_colourActionPerformed
 
     private void frame_colourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frame_colourActionPerformed
-        frame = JColorChooser.showDialog(this,"Select a color",frame);
+        frame = config.get_frame(frame_colour);
         clock.setBorder(BorderFactory.createLineBorder(frame));
     }//GEN-LAST:event_frame_colourActionPerformed
 
@@ -305,7 +253,9 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_time_zoneActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      
+        AlarmClock a = new AlarmClock();
+        a.setVisible(true);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
