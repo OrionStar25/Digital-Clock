@@ -1,12 +1,22 @@
-
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
+import javax.swing.BorderFactory;
+import javax.swing.JColorChooser;
+import javax.swing.JList;
 
 public class NewJFrame extends javax.swing.JFrame {
+    
+    int hour,minute,second,AM_PM,year,month,day;
+    String time,time_zone;
+    Date date;
+    Color background,text,frame;
 
-    /**
-     * Creates new form NewJFrame
-     */
     public NewJFrame() {
         initComponents();
         new Thread()
@@ -16,12 +26,17 @@ public class NewJFrame extends javax.swing.JFrame {
                 while(true)
                 {
                     Calendar cal = new GregorianCalendar();
-                    String time;
-                    int hour = cal.get(Calendar.HOUR);
-                    int minute = cal.get(Calendar.MINUTE);
-                    int second = cal.get(Calendar.SECOND);
-                    int AM_PM = cal.get(Calendar.AM_PM);
+//                    Calendar cal = new GregorianCalendar(TimeZone.getTimeZone(time_zone));
+                    hour = cal.get(Calendar.HOUR);
+                    minute = cal.get(Calendar.MINUTE);
+                    second = cal.get(Calendar.SECOND);
+                    AM_PM = cal.get(Calendar.AM_PM);
+                    date = new Date();
                     
+                    if(jRadioButton24.isSelected() && AM_PM == 1) //24 hour clock display is selected
+                    {
+                        hour += 12;
+                    }
                     if(hour < 10)
                     {
                         time = "0" + hour + ":";
@@ -49,18 +64,21 @@ public class NewJFrame extends javax.swing.JFrame {
                         time = time + second + " ";
                     }
                     
-                    switch(AM_PM)
+                    if(jRadioButton12.isSelected()) //12 hour clock display is selected
                     {
-                        case 0: time = time + "AM";
-                                break;
-                        case 1: time = time + "PM";
-                                break;
-                    }                                      
+                        switch(AM_PM)
+                        {
+                            case 0: time = time + "AM";
+                                    break;
+                            case 1: time = time + "PM";
+                                    break;
+                        }
+                    }
                     
                     clock.setText(time);
+                    date_field.setText(" " + date);
                 }
-            }
-            
+            }            
         }.start();
     }
 
@@ -76,18 +94,41 @@ public class NewJFrame extends javax.swing.JFrame {
         jSlider1 = new javax.swing.JSlider();
         jSlider2 = new javax.swing.JSlider();
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         clock = new javax.swing.JLabel();
+        date_field = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
-        swatch = new javax.swing.JMenuItem();
-        timer = new javax.swing.JMenuItem();
+        text_colour = new javax.swing.JMenuItem();
+        frame_colour = new javax.swing.JMenuItem();
+        bg_colour = new javax.swing.JMenuItem();
+        font_style = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jRadioButton12 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButton24 = new javax.swing.JRadioButtonMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jRadioButtonMenuItem4 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem5 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem6 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem7 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem8 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem9 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem11 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem10 = new javax.swing.JRadioButtonMenuItem();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
+
+        jMenuItem1.setText("jMenuItem1");
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(7, 6, 5));
@@ -97,39 +138,43 @@ public class NewJFrame extends javax.swing.JFrame {
         clock.setFont(new java.awt.Font("DS-Digital", 0, 68)); // NOI18N
         clock.setForeground(new java.awt.Color(0, 153, 255));
         clock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        clock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(209, 131, 131), 4));
 
-        jButton2.setBackground(java.awt.Color.white);
-        jButton2.setFont(new java.awt.Font("Century Schoolbook L", 1, 15)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(6, 14, 20));
-        jButton2.setText("CLOSE");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        date_field.setFont(new java.awt.Font("DS-Digital", 1, 24)); // NOI18N
+        date_field.setForeground(new java.awt.Color(255, 245, 245));
+
+        jButton2.setFont(new java.awt.Font("Serif", 1, 15)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(31, 7, 7));
+        jButton2.setText("SET ALARM");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(101, 101, 101)
+                .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 822, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(101, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addComponent(jButton2)))
-                .addGap(0, 86, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(date_field, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(359, 359, 359))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(437, 437, 437))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(116, 116, 116)
+                .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(date_field, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         jButton1.setText("jButton1");
@@ -140,25 +185,141 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenu1.setText("Digital Clock");
         jMenu1.setFont(new java.awt.Font("Noto Sans CJK KR Medium", 1, 15)); // NOI18N
 
-        swatch.setFont(new java.awt.Font("Noto Sans CJK TC Medium", 1, 15)); // NOI18N
-        swatch.setText("Stop Watch");
-        swatch.addActionListener(new java.awt.event.ActionListener() {
+        text_colour.setText("ClockText colour");
+        text_colour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                swatchActionPerformed(evt);
+                text_colourActionPerformed(evt);
             }
         });
-        jMenu1.add(swatch);
+        jMenu1.add(text_colour);
 
-        timer.setFont(new java.awt.Font("Noto Sans CJK JP Bold", 1, 15)); // NOI18N
-        timer.setText("Timer");
-        timer.addActionListener(new java.awt.event.ActionListener() {
+        frame_colour.setText("Frame colour");
+        frame_colour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timerActionPerformed(evt);
+                frame_colourActionPerformed(evt);
             }
         });
-        jMenu1.add(timer);
+        jMenu1.add(frame_colour);
+
+        bg_colour.setText("Background colour");
+        bg_colour.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bg_colourActionPerformed(evt);
+            }
+        });
+        jMenu1.add(bg_colour);
+
+        font_style.setText("Font style");
+        font_style.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                font_styleActionPerformed(evt);
+            }
+        });
+        jMenu1.add(font_style);
 
         jMenuBar1.add(jMenu1);
+
+        jMenu3.setText("Time Format");
+        jMenu3.setFont(new java.awt.Font("Noto Sans CJK TC Medium", 1, 15)); // NOI18N
+
+        buttonGroup1.add(jRadioButton12);
+        jRadioButton12.setText("12 hour");
+        jMenu3.add(jRadioButton12);
+
+        buttonGroup1.add(jRadioButton24);
+        jRadioButton24.setSelected(true);
+        jRadioButton24.setText("24 hour");
+        jMenu3.add(jRadioButton24);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Time Zone");
+        jMenu4.setFont(new java.awt.Font("Noto Sans CJK TC Medium", 1, 15)); // NOI18N
+
+        buttonGroup2.add(jRadioButtonMenuItem4);
+        jRadioButtonMenuItem4.setSelected(true);
+        jRadioButtonMenuItem4.setText("America/Los_Angeles");
+        jRadioButtonMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonMenuItem4MouseClicked(evt);
+            }
+        });
+        jRadioButtonMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jRadioButtonMenuItem4);
+
+        buttonGroup2.add(jRadioButtonMenuItem5);
+        jRadioButtonMenuItem5.setText("Asia/Colombo");
+        jRadioButtonMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonMenuItem5MouseClicked(evt);
+            }
+        });
+        jMenu4.add(jRadioButtonMenuItem5);
+
+        buttonGroup2.add(jRadioButtonMenuItem6);
+        jRadioButtonMenuItem6.setText("Canada/Central");
+        jRadioButtonMenuItem6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonMenuItem6MouseClicked(evt);
+            }
+        });
+        jMenu4.add(jRadioButtonMenuItem6);
+
+        buttonGroup2.add(jRadioButtonMenuItem7);
+        jRadioButtonMenuItem7.setText("Egypt");
+        jRadioButtonMenuItem7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonMenuItem7MouseClicked(evt);
+            }
+        });
+        jMenu4.add(jRadioButtonMenuItem7);
+
+        buttonGroup2.add(jRadioButtonMenuItem8);
+        jRadioButtonMenuItem8.setText("Europe/Berlin");
+        jRadioButtonMenuItem8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonMenuItem8MouseClicked(evt);
+            }
+        });
+        jMenu4.add(jRadioButtonMenuItem8);
+
+        buttonGroup2.add(jRadioButtonMenuItem9);
+        jRadioButtonMenuItem9.setText("Greenwich");
+        jRadioButtonMenuItem9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonMenuItem9MouseClicked(evt);
+            }
+        });
+        jMenu4.add(jRadioButtonMenuItem9);
+
+        buttonGroup2.add(jRadioButtonMenuItem11);
+        jRadioButtonMenuItem11.setText("Japan");
+        jRadioButtonMenuItem11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonMenuItem11MouseClicked(evt);
+            }
+        });
+        jMenu4.add(jRadioButtonMenuItem11);
+
+        buttonGroup2.add(jRadioButtonMenuItem10);
+        jRadioButtonMenuItem10.setText("IST");
+        jRadioButtonMenuItem10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonMenuItem10MouseClicked(evt);
+            }
+        });
+        jRadioButtonMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jRadioButtonMenuItem10);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -176,19 +337,64 @@ public class NewJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void bg_colourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bg_colourActionPerformed
+        background = JColorChooser.showDialog(this,"Select a color",background);
+        jPanel1.setBackground(background);
+    }//GEN-LAST:event_bg_colourActionPerformed
 
-    private void swatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_swatchActionPerformed
-        // TODO add your handling code here:
-       
-    }//GEN-LAST:event_swatchActionPerformed
+    private void font_styleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_font_styleActionPerformed
+       //todo       
+    }//GEN-LAST:event_font_styleActionPerformed
 
-    private void timerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerActionPerformed
+    private void text_colourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_colourActionPerformed
+        text = JColorChooser.showDialog(this,"Select a color",text);
+        clock.setForeground(text);
+    }//GEN-LAST:event_text_colourActionPerformed
+
+    private void frame_colourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frame_colourActionPerformed
+        frame = JColorChooser.showDialog(this,"Select a color",frame);
+        clock.setBorder(BorderFactory.createLineBorder(frame));
+    }//GEN-LAST:event_frame_colourActionPerformed
+
+    private void jRadioButtonMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_timerActionPerformed
+    }//GEN-LAST:event_jRadioButtonMenuItem4ActionPerformed
+
+    private void jRadioButtonMenuItem4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem4MouseClicked
+        time_zone = "America/Los_Angeles";
+    }//GEN-LAST:event_jRadioButtonMenuItem4MouseClicked
+
+    private void jRadioButtonMenuItem5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem5MouseClicked
+        time_zone = "America/Los_Angeles";
+    }//GEN-LAST:event_jRadioButtonMenuItem5MouseClicked
+
+    private void jRadioButtonMenuItem6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem6MouseClicked
+        time_zone = "America/Los_Angeles";
+    }//GEN-LAST:event_jRadioButtonMenuItem6MouseClicked
+
+    private void jRadioButtonMenuItem7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem7MouseClicked
+       time_zone = "America/Los_Angeles";
+    }//GEN-LAST:event_jRadioButtonMenuItem7MouseClicked
+
+    private void jRadioButtonMenuItem8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem8MouseClicked
+        time_zone = "America/Los_Angeles";
+    }//GEN-LAST:event_jRadioButtonMenuItem8MouseClicked
+
+    private void jRadioButtonMenuItem9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem9MouseClicked
+        time_zone = "America/Los_Angeles";
+    }//GEN-LAST:event_jRadioButtonMenuItem9MouseClicked
+
+    private void jRadioButtonMenuItem11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem11MouseClicked
+       time_zone = "America/Los_Angeles";
+    }//GEN-LAST:event_jRadioButtonMenuItem11MouseClicked
+
+    private void jRadioButtonMenuItem10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem10MouseClicked
+        time_zone = "IST";
+    }//GEN-LAST:event_jRadioButtonMenuItem10MouseClicked
+
+    private void jRadioButtonMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,17 +432,36 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem bg_colour;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JLabel clock;
+    private javax.swing.JLabel date_field;
+    private javax.swing.JMenuItem font_style;
+    private javax.swing.JMenuItem frame_colour;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButtonMenuItem jRadioButton12;
+    private javax.swing.JRadioButtonMenuItem jRadioButton24;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem10;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem11;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem4;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem5;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem6;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem7;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem8;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem9;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSlider jSlider2;
-    private javax.swing.JMenuItem swatch;
-    private javax.swing.JMenuItem timer;
+    private javax.swing.JMenuItem text_colour;
     // End of variables declaration//GEN-END:variables
 }
