@@ -10,6 +10,9 @@ import java.util.TimeZone;
 import javax.swing.BorderFactory;
 import javax.swing.JColorChooser;
 import javax.swing.JList;
+import java.util.*;
+
+
 
 public class NewJFrame extends javax.swing.JFrame {
     
@@ -34,9 +37,13 @@ public class NewJFrame extends javax.swing.JFrame {
                     AM_PM = cal.get(Calendar.AM_PM);
                     date = new Date();
                     
-                    if(jRadioButton24.isSelected() && AM_PM == 1) //24 hour clock display is selected
+                    if(jRadioButton24.isSelected() && AM_PM == 1 && hour!=12) //24 hour clock display is selected
                     {
-                        hour += 12;
+                        hour += 12;               
+                    }
+                    if(jRadioButton24.isSelected() && AM_PM == 0 && hour == 12) 
+                    {
+                        hour = 0;
                     }
                     if(hour < 10)
                     {
@@ -67,6 +74,9 @@ public class NewJFrame extends javax.swing.JFrame {
                     
                     if(jRadioButton12.isSelected()) //12 hour clock display is selected
                     {
+                        hour = cal.get(Calendar.HOUR);
+                        if(time_zone.getSelectedItem().equals("Japan"))
+                            System.out.println(hour);
                         switch(AM_PM)
                         {
                             case 0: time = time + "AM";
