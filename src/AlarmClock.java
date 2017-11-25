@@ -1,12 +1,32 @@
 
 public class AlarmClock extends javax.swing.JFrame {
 
-    private int hour_value,minute_value,second_value;
-    private String AM_PM;
+    private int alarm_hour_value,alarm_minute_value,alarm_second_value;
+    private String alarm_AM_PM;
+    private boolean alarm_isSet;
     
     public AlarmClock() {
-        initComponents();
+        initComponents();        
     }
+    
+    public boolean getStatus() {
+        return alarm_isSet;
+    }
+    public int getHour() {
+        return alarm_hour_value;               
+    }
+    public int getMin() {
+        return this.alarm_minute_value;
+    }
+    public int getSec() {
+        return this.alarm_second_value;
+    }
+    public int getAMPM() {
+        if(alarm_AM_PM.equals("PM"))
+            return 1;
+        return 0;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,10 +153,11 @@ public class AlarmClock extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
-        hour_value = Integer.parseInt(hour.getText());
-        minute_value = Integer.parseInt(minute.getText());
-        second_value = Integer.parseInt(second.getText());
-        AM_PM = amPm.getText();
+        alarm_hour_value = Integer.parseInt(hour.getText());
+        alarm_minute_value = Integer.parseInt(minute.getText());
+        alarm_second_value = Integer.parseInt(second.getText());
+        alarm_AM_PM = amPm.getText();
+        alarm_isSet = true;
         this.dispose();
     }//GEN-LAST:event_doneActionPerformed
 

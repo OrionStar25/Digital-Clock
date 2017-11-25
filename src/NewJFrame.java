@@ -12,10 +12,11 @@ public class NewJFrame extends javax.swing.JFrame {
     private Configure config;
     private Color background,text,frame;
     private JFontChooser f;
+    private AlarmClock a;
+    boolean sendAlarmSig = false;
 
     public NewJFrame() {
-        initComponents();
-             
+        initComponents();   
         new Thread()
         {
             public void run()
@@ -23,17 +24,31 @@ public class NewJFrame extends javax.swing.JFrame {
                 while(true)
                 {
                     tz = new Timezone(time_zone); //get the selected time zone
-                    Calendar cal = new GregorianCalendar(tz.getTimeZone()); //get details of that time zone
-                    
+                    Calendar cal = new GregorianCalendar(tz.getTimeZone()); //get details of that time zone    
                     t = new Time(cal); //get current time
                     clock.setText(t.setTime(jRadioButton24,jRadioButton12)); //set time
                     date = new Date(); //get date
-                    date_field.setText(" " + date);//set date
-                    
+                    date_field.setText(" " + date);//set date                
                     config = new Configure();
+                    
+                    //Set alarm 
+                    
+                    if(sendAlarmSig) { 
+                        if(a.getStatus()) {
+                            //System.out.println("Alarm is set");
+                            if(cal.get(Calendar.HOUR) == a.getHour() && cal.get(Calendar.MINUTE) == a.getMin() && cal.get(Calendar.SECOND) == a.getSec() && cal.get(Calendar.AM_PM) == (a.getAMPM()) ) {
+                                System.out.println("das");
+                            } 
+                                
+                        }
+                    }
+                    
                 }
             }            
         }.start();
+        
+        
+        
     }
 
     /**
@@ -127,14 +142,14 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 822, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(286, 286, 286)
                         .addComponent(jLabel1)
                         .addGap(122, 122, 122)
-                        .addComponent(time_zone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(101, Short.MAX_VALUE))
+                        .addComponent(time_zone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 822, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,9 +158,9 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(time_zone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
+                .addGap(65, 65, 65)
                 .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(date_field, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
@@ -253,9 +268,10 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_time_zoneActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        AlarmClock a = new AlarmClock();
-        a.setVisible(true);
+        a = new AlarmClock();
         
+        a.setVisible(true);
+        sendAlarmSig = true;
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
