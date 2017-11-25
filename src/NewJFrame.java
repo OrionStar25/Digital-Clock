@@ -3,9 +3,13 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.BorderFactory;
+import javafx.embed.swing.JFXPanel;
+import java.io.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 
 public class NewJFrame extends javax.swing.JFrame {
-    
     private Timezone tz;
     private Time t;    
     private Date date;
@@ -14,17 +18,34 @@ public class NewJFrame extends javax.swing.JFrame {
     private JFontChooser f;
     private AlarmClock a;
     boolean sendAlarmSig = false;
-
+    final JFXPanel fxPanel = new JFXPanel();
+    MediaPlayer mediaplayer;
+    Media hit;
+    boolean alreadyPlaying = false;
+    boolean stopPressed = false;
+    int count = 0;
+    
     public NewJFrame() {
-        initComponents();   
+        
+        initComponents(); 
+        
+        // Set day song
+        Timezone tempTz = new Timezone(time_zone);
+        Calendar tempCal = new GregorianCalendar(tempTz.getTimeZone());
+        String playFile  =  tempCal.get(Calendar.DAY_OF_WEEK) +".mp3" ;
+        hit = new Media(new File(playFile).toURI().toString());
+        mediaplayer = new MediaPlayer(hit);
+        // End of block
+                
         new Thread()
         {
             public void run()
-            {
+            {    
+                stopAlarm.setVisible(false);
                 while(true)
                 {
                     tz = new Timezone(time_zone); //get the selected time zone
-                    Calendar cal = new GregorianCalendar(tz.getTimeZone()); //get details of that time zone    
+                    Calendar cal = new GregorianCalendar(tz.getTimeZone()); //get details of that time zone     
                     t = new Time(cal); //get current time
                     clock.setText(t.setTime(jRadioButton24,jRadioButton12)); //set time
                     date = new Date(); //get date
@@ -32,25 +53,21 @@ public class NewJFrame extends javax.swing.JFrame {
                     config = new Configure();
                     
                     //Set alarm 
-                    
                     if(sendAlarmSig) { 
-                        if(a.getStatus()) {
-                            //System.out.println("Alarm is set");
+                        if(a.getStatus()) {                        
                             if(cal.get(Calendar.HOUR) == a.getHour() && cal.get(Calendar.MINUTE) == a.getMin() && cal.get(Calendar.SECOND) == a.getSec() && cal.get(Calendar.AM_PM) == (a.getAMPM()) ) {
-                                System.out.println("das");
+                                // Play song
+                                mediaplayer.play();            
+                                stopAlarm.setVisible(true);
                             } 
-                                
                         }
                     }
                     
                 }
             }            
         }.start();
-        
-        
-        
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,6 +90,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         time_zone = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        stopAlarm = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -126,6 +144,14 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(254, 242, 242));
         jLabel1.setText("Select time zone");
 
+        stopAlarm.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
+        stopAlarm.setText("Stop Alarm");
+        stopAlarm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopAlarmActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -150,6 +176,10 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGap(93, 93, 93)
                         .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 822, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(109, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(stopAlarm)
+                .addGap(450, 450, 450))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +194,9 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(date_field, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(stopAlarm)
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         jButton1.setText("jButton1");
@@ -269,10 +301,16 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         a = new AlarmClock();
-        
         a.setVisible(true);
         sendAlarmSig = true;
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void stopAlarmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopAlarmActionPerformed
+        // TODO add your handling code here:
+        mediaplayer.stop();
+        a = new AlarmClock();
+        stopAlarm.setVisible(false);
+    }//GEN-LAST:event_stopAlarmActionPerformed
 
     /**
      * @param args the command line arguments
@@ -332,6 +370,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSlider jSlider2;
+    private javax.swing.JButton stopAlarm;
     private javax.swing.JMenuItem text_colour;
     private javax.swing.JComboBox<String> time_zone;
     // End of variables declaration//GEN-END:variables

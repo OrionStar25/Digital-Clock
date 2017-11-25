@@ -181,6 +181,11 @@
                   </Group>
                   <EmptySpace pref="109" max="32767" attributes="0"/>
               </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="stopAlarm" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="450" max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -197,7 +202,9 @@
                   <Component id="date_field" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="161" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="stopAlarm" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="96" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -280,6 +287,17 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Select time zone"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="stopAlarm">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Comic Sans MS" size="16" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Stop Alarm"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopAlarmActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
