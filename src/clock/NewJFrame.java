@@ -5,10 +5,10 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.BorderFactory;
-import javafx.embed.swing.JFXPanel;
+//import javafx.embed.swing.JFXPanel;
 import java.io.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
 import javax.swing.JButton;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -27,9 +27,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private JFontChooser f;
     private AlarmClock a;
     boolean sendAlarmSig = false;
-    final JFXPanel fxPanel = new JFXPanel();
-    MediaPlayer mediaplayer;
-    Media hit;
+//    final JFXPanel fxPanel = new JFXPanel();
+//    MediaPlayer mediaplayer;
+//    Media hit;
     boolean alreadyPlaying = false;
     boolean stopPressed = false;
     int count = 0;
@@ -43,8 +43,8 @@ public class NewJFrame extends javax.swing.JFrame {
         Calendar tempCal = new GregorianCalendar(tempTz.getTimeZone());
         String playFile  =  tempCal.get(Calendar.DAY_OF_WEEK) +".mp3" ;
         System.out.println(playFile);
-        hit = new Media(new File(playFile).toURI().toString());
-        mediaplayer = new MediaPlayer(hit);
+//        hit = new Media(new File(playFile).toURI().toString());
+//        mediaplayer = new MediaPlayer(hit);
         // End of block
                 
         new Thread()
@@ -67,7 +67,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         if(a.getStatus()) {                        
                             if(cal.get(Calendar.HOUR) == a.getHour() && cal.get(Calendar.MINUTE) == a.getMin() && cal.get(Calendar.SECOND) == a.getSec() && cal.get(Calendar.AM_PM) == (a.getAMPM()) ) {
                                 // Play song
-                                mediaplayer.play();            
+//                                mediaplayer.play();            
                                 stopAlarm.setVisible(true);
                             } 
                         }
@@ -347,7 +347,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void stopAlarmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopAlarmActionPerformed
         // TODO add your handling code here:
-        mediaplayer.stop();
+//        mediaplayer.stop();
         a = new AlarmClock();
         stopAlarm.setVisible(false);
     }//GEN-LAST:event_stopAlarmActionPerformed

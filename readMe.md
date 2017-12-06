@@ -23,6 +23,6 @@ Support material :-
 1) UML class diagram, use case diagram, activity diagram and CRC diagram for the same.
 2) Demo video of its working.
 
-![](digital-clock.ts)
+![](digital-clock.gif)
 
 
